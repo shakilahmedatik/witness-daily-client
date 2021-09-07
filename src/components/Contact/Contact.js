@@ -60,7 +60,7 @@ const Contact = () => {
     <div>
       <Header />
 
-      <div className='container mt-4 mb-5'>
+      <div className='container mt-4 pb-5 mb-5'>
         <div className='row'>
           <div className='col-md-6 offset-md-3'>
             <h1 className='text-center'>Contact Us</h1>

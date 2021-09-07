@@ -1,0 +1,23 @@
+.social_footer_ul {
+  display: table;
+  margin: 15px auto 0 auto;
+  padding-right: 25px;
+  list-style-type: none;
+}
+.social_footer_ul li {
+  padding: 5px;
+
+  float: left;
+}
+.social_footer_ul li a {
+  color: #ffffff;
+  border: 3px solid #28df99;
+  background: #a7bbc7;
+  padding: 8px;
+  border-radius: 50%;
+}
+.social_footer_ul li i {
+  width: 20px;
+  height: 20px;
+  text-align: center;
+}
