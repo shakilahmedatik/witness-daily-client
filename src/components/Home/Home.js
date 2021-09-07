@@ -31,7 +31,7 @@ const Home = () => {
     <div>
       <Header />
       <SlidingBanner />
-      <div className='container  pt-5'>
+      <div className='container  pt-5 mb-5'>
         <h2 className='text-center'>Welcome to Witness Daily</h2>
 
         <hr />

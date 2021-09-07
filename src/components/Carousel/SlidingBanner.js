@@ -8,20 +8,17 @@ const SlidingBanner = () => {
   return (
     <div>
       <Carousel>
-        <Carousel.Item>
+        <Carousel.Item interval={3000}>
           <img className='d-block w-100' src={bg1} alt='First slide' />
-          <Carousel.Caption>
+          <Carousel.Caption className='display-none'>
             <h1>Country’s Most Vibrant Newspaper</h1>
-            <p>
-              The news isn't there to tell you what happened. It's there to tell
-              you what it wants you to hear.
-            </p>
+            <p>The news isn't there to tell you what happened.</p>
           </Carousel.Caption>
         </Carousel.Item>
-        <Carousel.Item>
+        <Carousel.Item interval={3000}>
           <img className='d-block w-100' src={bg2} alt='Second slide' />
 
-          <Carousel.Caption>
+          <Carousel.Caption className='display-none'>
             <h1>Because you deserve nothing but the truth</h1>
             <p>
               The news isn't there to tell you what happened. It's there to tell
@@ -29,10 +26,10 @@ const SlidingBanner = () => {
             </p>
           </Carousel.Caption>
         </Carousel.Item>
-        <Carousel.Item>
+        <Carousel.Item interval={3000}>
           <img className='d-block w-100' src={bg3} alt='Third slide' />
 
-          <Carousel.Caption>
+          <Carousel.Caption className='display-none'>
             <h1>We know what you are Searching</h1>
             <p>
               The news isn't there to tell you what happened. It's there to tell
