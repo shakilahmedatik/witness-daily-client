@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Redirect } from 'react-router'
 import Header from '../Header/Header'
 import Footer from '../Footer/Footer'
+import { toast } from 'react-toastify'
 
 const AddArticle = () => {
   const [redirect, setRedirect] = useState(false)
@@ -58,14 +59,19 @@ const AddArticle = () => {
       body: JSON.stringify(articleData),
     })
       .then(response => {
-        console.log(response)
+        if (response.status === 200) {
+          toast.success('Article Published!')
+          setTimeout(() => {
+            setRedirect(true)
+          }, 2000)
+        } else {
+          toast.error(response.statusText)
+        }
       })
       .catch(err => {
         console.log(err)
+        toast.error(err)
       })
-    setTimeout(() => {
-      setRedirect(true)
-    }, 1000)
   }
 
   const newPostForm = () => (

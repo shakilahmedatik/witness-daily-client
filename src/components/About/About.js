@@ -1,15 +1,24 @@
 import React from 'react'
 import Footer from '../Footer/Footer'
 import Header from '../Header/Header'
-import abtImg from '../../assets/images/about.png'
+import Lottie from 'react-lottie'
+import about from '../../assets/lotties/about.json'
 
 const About = () => {
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: about,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
+  }
   return (
     <div>
       <Header />
       <div className='container mt-5 mb-5'>
-        <div className='row'>
-          <div className='col-md-6'>
+        <div className='row align-items-center'>
+          <div className='col-md-6 p-3'>
             <h1 className='text-center pb-3'>About Witness Daily</h1>
             <hr />
             <h2>HISTORY</h2>
@@ -36,9 +45,7 @@ const About = () => {
             </p>
           </div>
           <div className='col-md-6'>
-            <div className=''>
-              <img src={abtImg} alt='' className='img-fluid rounded' />
-            </div>
+            <Lottie options={defaultOptions} height={400} width={300} />
           </div>
         </div>
       </div>

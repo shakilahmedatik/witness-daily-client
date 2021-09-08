@@ -3,10 +3,21 @@ import ArticleCard from '../Article/ArticleCard'
 import SlidingBanner from '../Carousel/SlidingBanner'
 import Footer from '../Footer/Footer'
 import Header from '../Header/Header'
+import Lottie from 'react-lottie'
+import breakingNews from '../../assets/lotties/breaking-news.json'
 
 const Home = () => {
   const [articles, setArticles] = useState([])
   const [filteredArticles, setFilteredArticles] = useState([])
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: breakingNews,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
+  }
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/articles`)
@@ -69,6 +80,8 @@ const Home = () => {
                   Politics
                 </li>
               </ul>
+
+              <Lottie options={defaultOptions} height={400} width={300} />
             </div>
           </div>
         </div>

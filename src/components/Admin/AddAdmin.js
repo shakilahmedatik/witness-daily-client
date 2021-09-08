@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Redirect } from 'react-router'
 import Header from '../Header/Header'
 import Footer from '../Footer/Footer'
+import { toast } from 'react-toastify'
 
 const AddAdmin = () => {
   const [redirect, setRedirect] = useState(false)
@@ -37,14 +38,19 @@ const AddAdmin = () => {
       body: JSON.stringify(adminData),
     })
       .then(response => {
-        console.log(response)
+        if (response.status === 200) {
+          toast.success('Signup Successful!')
+          setTimeout(() => {
+            setRedirect(true)
+          }, 2000)
+        } else {
+          toast.error(response.statusText)
+        }
       })
       .catch(err => {
         console.log(err)
+        toast.error(err.response.data)
       })
-    setTimeout(() => {
-      setRedirect(true)
-    }, 1000)
   }
 
   const newPostForm = () => (
