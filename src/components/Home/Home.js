@@ -5,10 +5,12 @@ import Footer from '../Footer/Footer'
 import Header from '../Header/Header'
 import Lottie from 'react-lottie'
 import breakingNews from '../../assets/lotties/breaking-news.json'
+import Splash from '../Splash/Splash'
 
 const Home = () => {
   const [articles, setArticles] = useState([])
   const [filteredArticles, setFilteredArticles] = useState([])
+  const [loading, setLoading] = useState(false)
 
   const defaultOptions = {
     loop: true,
@@ -23,8 +25,12 @@ const Home = () => {
     fetch(`${process.env.REACT_APP_API_URL}/articles`)
       .then(res => res.json())
       .then(data => {
+        setLoading(true)
         setArticles(data)
         setFilteredArticles(data)
+        setTimeout(() => {
+          setLoading(false)
+        }, 1000)
       })
       .catch(err => console.log(err))
   }, [])
@@ -51,7 +57,11 @@ const Home = () => {
             <div className=' col-md-8'>
               <div>
                 <h2>LATEST NEWS</h2>
-                <ArticleCard articles={filteredArticles} />
+                {loading ? (
+                  <Splash />
+                ) : (
+                  <ArticleCard articles={filteredArticles} />
+                )}
               </div>
             </div>
             <div className='col-md-4'>
