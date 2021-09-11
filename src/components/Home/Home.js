@@ -10,7 +10,7 @@ import Splash from '../Splash/Splash'
 const Home = () => {
   const [articles, setArticles] = useState([])
   const [filteredArticles, setFilteredArticles] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   const defaultOptions = {
     loop: true,
@@ -25,7 +25,6 @@ const Home = () => {
     fetch(`${process.env.REACT_APP_API_URL}/articles`)
       .then(res => res.json())
       .then(data => {
-        setLoading(true)
         setArticles(data)
         setFilteredArticles(data)
         setTimeout(() => {
