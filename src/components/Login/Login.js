@@ -12,6 +12,8 @@ import firebaseConfig from '../../firebase.config'
 import './Login.css'
 import { UserContext } from '../../App'
 import { useHistory, useLocation } from 'react-router'
+import { toast } from 'react-toastify'
+import axios from 'axios'
 
 const Login = () => {
   const history = useHistory()
@@ -93,65 +95,53 @@ const Login = () => {
 
   //Email & password login handle
   const handleChange = e => {
-    let isFormValid = true
-    if (e.target.name === 'email') {
-      isFormValid = /\S+@\S+\.\S+/.test(e.target.value)
-    }
-    if (e.target.name === 'password') {
-      isFormValid = /(?=.*\d).{6,}/.test(e.target.value)
-    }
-    if (isFormValid) {
-      const newUserInfo = { ...user }
-      newUserInfo[e.target.name] = e.target.value
-      setUser(newUserInfo)
-    }
+    const newUserInfo = { ...user }
+    newUserInfo[e.target.name] = e.target.value
+    setUser(newUserInfo)
   }
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
+    e.preventDefault()
+    // User Signup
     if (newUser && user.email && user.password) {
-      fetch(`${process.env.REACT_APP_API_URL}/signup`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(user),
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log('User Created')
-          const newUserInfo = { ...user }
-          newUserInfo.error = ''
-          newUserInfo.success = true
-          setUser(newUserInfo)
-        })
-        .catch(err => {
-          console.log(err)
-          const newUserInfo = { ...user }
-          newUserInfo.success = false
-          newUserInfo.error = err.message
-          setUser(newUserInfo)
-        })
+      const newUser = {
+        name: user.name,
+        email: user.email,
+        password: user.password,
+      }
+      console.log(newUser)
+      try {
+        console.log('1 inside try')
+        let res = await axios.post(
+          `${process.env.REACT_APP_API_URL}/signup`,
+          newUser
+        )
+        console.log('REGISTER USER ===> ', res)
+        toast.success('Register success. Please login.')
+        setNewUser(false)
+      } catch (err) {
+        console.log(err.response.data)
+        console.log(err.response.status)
+        toast.error(err.response.data.error)
+      }
     }
+    // User Signin
     if (!newUser && user.email && user.password) {
-      fetch(`${process.env.REACT_APP_API_URL}/signin`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(user),
-      })
-        .then(res => res.json())
-        .then(data => {
-          console.log(data)
+      const newUser = {
+        email: user.email,
+        password: user.password,
+      }
+      try {
+        const res = await axios.post(
+          `${process.env.REACT_APP_API_URL}/signin`,
+          newUser
+        )
 
-          const { name, email, role } = data.user
+        if (res.data) {
+          console.log(res.data.user)
+          const { name, email, role } = res.data.user
+          toast.success('Welcome Back!')
           setUser({
             isSignedIn: true,
-            name: name,
-            email: email,
-            error: '',
-            success: true,
           })
           setLoggedInUser({
             isSignedIn: true,
@@ -160,17 +150,11 @@ const Login = () => {
             role: role,
           })
           history.replace(from)
-        })
-        .catch(error => {
-          // Handle Errors here.
-          console.log(error)
-          const newUserInfo = { ...user }
-          newUserInfo.success = false
-          newUserInfo.error = error.message
-          setUser(newUserInfo)
-        })
+        }
+      } catch (err) {
+        if (err.response.status === 400) toast.error(err.response.data.error)
+      }
     }
-    e.preventDefault()
   }
 
   return (
@@ -204,7 +188,6 @@ const Login = () => {
                   name='name'
                   onBlur={handleChange}
                   placeholder='Username'
-                  required
                 />
               </div>
             </div>
@@ -279,21 +262,6 @@ const Login = () => {
             </span>
           )}
 
-          {newUser ? (
-            <div>
-              <p style={{ color: 'red' }}>{user.error}</p>
-              {user.success && (
-                <p style={{ color: 'green' }}>User created successfully!</p>
-              )}
-            </div>
-          ) : (
-            <div>
-              <p style={{ color: 'red' }}>{user.error}</p>
-              {user.success && (
-                <p style={{ color: 'green' }}>User Signed in successfully!</p>
-              )}
-            </div>
-          )}
           <button
             style={{ width: '250px' }}
             onClick={googleSignInHandle}

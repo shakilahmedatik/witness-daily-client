@@ -4,6 +4,7 @@ import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
 import './Header.css'
 import { Link, useHistory } from 'react-router-dom'
 import { UserContext } from '../../App'
+import { toast } from 'react-toastify'
 
 const Header = () => {
   let history = useHistory()
@@ -11,6 +12,7 @@ const Header = () => {
   const handleLogout = e => {
     e.preventDefault()
     setLoggedInUser({})
+    toast.warning('User logged out!')
     history.push('/')
   }
   return (
